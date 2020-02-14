@@ -14,7 +14,7 @@ body {
   height: 100vh;
 }
 
-.menu h2{
+h2{
   color: #6d6d6d;
   font-size: 0.8rem;
   text-transform: uppercase;
@@ -45,4 +45,20 @@ button{
   color: #fff;
   padding: 0.5rem 1rem;
   cursor: pointer;
+}
+
+.login{
+  width: 15rem;
+  padding: 2rem;
+  background: #fff;
+  box-shadow: 0 0 10px #3334;
+  position: absolute;
+  z-index: 1000;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+}
+
+.login label{
+  font-size: 0.8rem;
 }
