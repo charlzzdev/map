@@ -1,7 +1,48 @@
+@import url('https://fonts.googleapis.com/css?family=Roboto&display=swap');
+
+*{
+  font-family: 'Roboto', sans-serif;
+  box-sizing: border-box;
+  margin: 0;
+}
+
 body {
   margin: 0;
 }
 
 #map {
   height: 100vh;
+}
+
+.menu h2{
+  color: #6d6d6d;
+  font-size: 0.8rem;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+}
+
+.field{
+  position: relative;
+  margin: 2rem 0;
+}
+
+.field input + label{
+  position: absolute;
+  left: 0;
+  top: -50%;
+}
+
+.field input{
+  padding: 0.5rem 1rem;
+  border: 1px solid #eee;
+  width: 100%;
+  background: #f9f9f9;
+}
+
+button{
+  border: 0;
+  background: #333;
+  color: #fff;
+  padding: 0.5rem 1rem;
+  cursor: pointer;
 }
