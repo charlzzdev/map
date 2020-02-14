@@ -20,10 +20,12 @@ firebase.auth().onAuthStateChanged(user => {
 
     map.on('click', (e) => {
       if (e.originalEvent.ctrlKey) {
+        const id = ('id' + e.latlng.lat + e.latlng.lng + Math.random()).split(".").join("");
+
         L.popup({ minWidth: 250 })
           .setLatLng([e.latlng.lat, e.latlng.lng])
           .setContent(`
-            <form class="menu">
+            <form id="${id}" data-latlng="${e.latlng.lat},${e.latlng.lng}">
               <h2>Pont hozzáadása</h2>
               <div class="field">
                 <input type="text" id="title">
@@ -41,6 +43,28 @@ firebase.auth().onAuthStateChanged(user => {
             </form>
           `)
           .openOn(map);
+
+        const saveForm = document.getElementById(`${id}`);
+
+        saveForm.addEventListener('submit', async e => {
+          e.preventDefault();
+          const [title, desc, img] = e.target;
+          const latlng = e.target.dataset.latlng;
+
+          await firebase.storage().ref()
+            .child(`images/${latlng}.png`)
+            .put(img.files[0])
+            .then(() => {
+              firebase.firestore().collection('markers')
+                .add({
+                  title: title.value,
+                  desc: desc.value,
+                  latlng
+                });
+            });
+
+          document.querySelector('.leaflet-popup-close-button').click();
+        });
       }
     });
   }
