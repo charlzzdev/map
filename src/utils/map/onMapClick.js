@@ -2,11 +2,12 @@ import L from 'leaflet';
 import firebase from 'firebase/app';
 import 'firebase/firestore';
 import 'firebase/storage';
+import uuidv4 from 'uuid/v4';
 
 const onMapClick = async map => {
   map.on('click', e => {
     if (e.originalEvent.ctrlKey) {
-      const id = ('id' + e.latlng.lat + e.latlng.lng + Math.random()).split(".").join("");
+      const id = uuidv4();
 
       L.popup({ minWidth: 250 })
         .setLatLng([e.latlng.lat, e.latlng.lng])
