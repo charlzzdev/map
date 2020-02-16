@@ -21,15 +21,24 @@ const getMarkers = map => {
 
         markers.push(marker);
 
-        firebase.storage().ref().child(`images/${latlng}.png`)
-          .getDownloadURL()
-          .then(url => {
-            marker.bindPopup(`
-              <h2>${title}</h2>
-              <p>${desc}</p>
-              <img src="${url}" style="width: 100%;" />
-            `, { minWidth: 300 });
-          });
+        marker.bindPopup(`
+          <h2>${title}</h2>
+          <p>${desc}</p>
+          <div class="marker-images" id="${latlng}"></div>
+        `, { minWidth: 300 });
+
+        marker.on('click', () => {
+          firebase.storage().ref().child(`images/${latlng}`)
+            .listAll()
+            .then(data => {
+              data.items.forEach(item => {
+                item.getDownloadURL()
+                  .then(url => {
+                    document.getElementById(latlng).innerHTML += `<img src="${url}">`;
+                  });
+              });
+            });
+        });
       });
     });
 }

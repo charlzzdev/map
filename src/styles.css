@@ -62,3 +62,12 @@ button{
 .login label{
   font-size: 0.8rem;
 }
+
+.marker-images{
+  max-height: 300px;
+  overflow-y: scroll;
+}
+
+.marker-images img{
+  width: 100%;
+}

@@ -23,8 +23,8 @@ const onMapClick = async map => {
               <label for="desc">Leírás</label>
             </div>
             <div class="field">
-              <input type="file" id="imageInput">
-              <label for="imageInput">Kép feltöltés</label>
+              <input type="file" id="imageInput" multiple>
+              <label for="imageInput">Képek feltöltése</label>
             </div>
             <button>Hozzáad</button>
           </form>
@@ -38,9 +38,18 @@ const onMapClick = async map => {
         const [title, desc, img] = e.target;
         const latlng = e.target.dataset.latlng;
 
-        await firebase.storage().ref()
-          .child(`images/${latlng}.png`)
-          .put(img.files[0])
+        const uploadAllImages = new Promise(resolve => {
+          Array.from(img.files).forEach((image, i) => {
+            firebase.storage().ref()
+              .child(`images/${latlng}/${uuidv4()}.png`)
+              .put(image)
+              .then(() => {
+                if (i === img.files.length - 1) resolve();
+              });
+          });
+        });
+
+        uploadAllImages
           .then(() => {
             firebase.firestore().collection('markers')
               .add({
