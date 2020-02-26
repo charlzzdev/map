@@ -23,7 +23,7 @@ const App = () => {
     }).addTo(map);
 
     firebase.auth().onAuthStateChanged(user => {
-      if (user) onMapClick(map);
+      if (user) onMapClick(map, tiles);
     });
 
     getMarkers(map, tiles);

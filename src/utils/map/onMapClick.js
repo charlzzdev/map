@@ -4,7 +4,7 @@ import 'firebase/firestore';
 import 'firebase/storage';
 import uuidv4 from 'uuid/v4';
 
-const onMapClick = async map => {
+const onMapClick = async (map, tiles) => {
   map.on('click', e => {
     if (e.originalEvent.ctrlKey) {
       const id = uuidv4();
@@ -41,7 +41,7 @@ const onMapClick = async map => {
         const uploadAllImages = new Promise(resolve => {
           Array.from(img.files).forEach((image, i) => {
             firebase.storage().ref()
-              .child(`images/${latlng}/${uuidv4()}.png`)
+              .child(`images/${tiles}/${latlng}/${uuidv4()}.png`)
               .put(image)
               .then(() => {
                 if (i === img.files.length - 1) resolve();
@@ -51,7 +51,7 @@ const onMapClick = async map => {
 
         uploadAllImages
           .then(() => {
-            firebase.firestore().collection('markers')
+            firebase.firestore().collection(`tiles/${tiles}/markers`)
               .add({
                 title: title.value,
                 desc: desc.value,
