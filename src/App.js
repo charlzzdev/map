@@ -4,16 +4,19 @@ import firebase from 'firebase/app';
 import 'firebase/auth';
 
 import LoginForm from './components/LoginForm';
+import Navigation from './components/Navigation';
+
 import onMapClick from './utils/map/onMapClick';
 import getMarkers from './utils/map/getMarkers';
 
 const App = () => {
   const [loginFormOpen, setLoginFormOpen] = useState(false);
+  const [tiles, setTiles] = useState('Páprád Helyszínrajz I');
 
   useEffect(() => {
     const map = L.map('map').setView([50, 0], 3);
 
-    L.tileLayer('/tiles/{z}/{x}_{y}.png', {
+    L.tileLayer(`tiles/${tiles}/{z}/{x}_{y}.png`, {
       minZoom: 2,
       maxZoom: 4,
       noWrap: true
@@ -23,8 +26,9 @@ const App = () => {
       if (user) onMapClick(map);
     });
 
-    getMarkers(map);
-  }, []);
+    getMarkers(map, tiles);
+    return () => map.remove();
+  }, [tiles]);
 
   const handleKeyDown = async e => {
     e.persist();
@@ -43,6 +47,7 @@ const App = () => {
   return (
     <>
       {loginFormOpen && <LoginForm setLoginFormOpen={setLoginFormOpen} />}
+      <Navigation setTiles={setTiles} />
       <div
         id="map"
         onKeyDown={handleKeyDown}

@@ -71,3 +71,66 @@ button{
 .marker-images img{
   width: 100%;
 }
+
+.main-nav{
+  position: absolute;
+  z-index: 1000;
+  top: 20px;
+  right: 25px;
+}
+
+.main-nav button{
+  box-sizing: border-box;
+  color: #1959ce;
+  background: #fff;
+  font-weight: bold;
+  font-size: 1rem;
+  letter-spacing: 0.5px;
+  width: 100%;
+  border-radius: 6px;
+  border: 2px solid transparent;
+}
+
+button.dropdown-toggle{
+  background: none;
+}
+
+.main-nav button:focus{
+  outline: none;
+  border: 2px solid #1c63e6;
+}
+
+.dropdown{
+  position: absolute;
+  width: 15rem;
+  right: 0;
+  top: 125%;
+  background: #fff;
+  box-shadow: 0 2px 10px #3333;
+  opacity: 0;
+  transition: opacity 300ms;
+}
+
+.dropdown.open{
+  opacity: 1;
+}
+
+.dropdown, .dropdown button{
+  border-radius: 6px;
+}
+
+.collapsible-body{
+  height: 0;
+  overflow-y: auto;
+  background: #f9f9f9;
+  transition: height 300ms;
+}
+
+.collapsible-body.open{
+  height: 9rem;
+}
+
+.collapsible-body button{
+  font-size: 0.8rem;
+  background: #f9f9f9;
+}
