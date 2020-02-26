@@ -3,10 +3,10 @@ import firebase from 'firebase/app';
 import 'firebase/firestore';
 import 'firebase/storage';
 
-const getMarkers = map => {
+const getMarkers = (map, tiles) => {
   const markers = [];
 
-  firebase.firestore().collection('markers')
+  firebase.firestore().collection(`tiles/${tiles}/markers`)
     .onSnapshot(({ docs }) => {
       markers.forEach(marker => map.removeLayer(marker));
       markers.splice(0, markers.length);
@@ -28,7 +28,7 @@ const getMarkers = map => {
         `, { minWidth: 300 });
 
         marker.on('click', () => {
-          firebase.storage().ref().child(`images/${latlng}`)
+          firebase.storage().ref().child(`images/${tiles}/${latlng}`)
             .listAll()
             .then(data => {
               data.items.forEach(item => {
