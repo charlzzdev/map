@@ -28,6 +28,7 @@ const getMarkers = (map, tiles) => {
         `, { minWidth: 300 });
 
         marker.on('click', () => {
+          if (!marker.getPopup().isOpen()) return;
           firebase.storage().ref().child(`images/${tiles}/${latlng}`)
             .listAll()
             .then(data => {
