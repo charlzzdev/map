@@ -14,6 +14,23 @@ body {
   height: 100vh;
 }
 
+.loading{
+  width: 20px;
+  height: 20px;
+  border: 2px solid #fff;
+  border-right: 2px solid transparent;
+  border-radius: 50%;
+  animation: loading 750ms linear infinite;
+}
+
+@keyframes loading{ to{ transform: rotateZ(360deg) } }
+
+.error{
+  font-size: 0.8rem;
+  color: red;
+  margin-bottom: 0.5rem;
+}
+
 h2{
   color: #6d6d6d;
   font-size: 0.8rem;
