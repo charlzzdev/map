@@ -35,7 +35,12 @@ const getMarkers = (map, tiles) => {
               data.items.forEach(item => {
                 item.getDownloadURL()
                   .then(url => {
-                    document.getElementById(latlng).innerHTML += `<img src="${url}">`;
+                    const fileName = url.split(encodeURIComponent(`${latlng}/`))[1];
+                    const sequenceNumber = fileName.split('_')[0];
+
+                    document.getElementById(latlng).innerHTML += `
+                      <img src="${url}" style="order: ${sequenceNumber};">
+                    `;
                   });
               });
             });
