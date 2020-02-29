@@ -26,26 +26,50 @@ const onMapClick = async (map, tiles) => {
               <input type="file" id="imageInput" multiple>
               <label for="imageInput">Képek feltöltése</label>
             </div>
+            <div class="error"></div>
             <button>Hozzáad</button>
           </form>
         `)
         .openOn(map);
 
       const saveForm = document.getElementById(id);
+      const uploadErrorDiv = saveForm.querySelector('.error');
+      const uploadButton = saveForm.querySelector('button');
 
       saveForm.addEventListener('submit', async e => {
         e.preventDefault();
         const [title, desc, img] = e.target;
         const latlng = e.target.dataset.latlng;
 
-        const uploadAllImages = new Promise(resolve => {
-          Array.from(img.files).forEach((image, i) => {
+        const images = Array.from(img.files);
+        if (!images.length) {
+          uploadErrorDiv.innerText = 'Nincsenek képek kiválasztva.';
+          return;
+        }
+
+        for (let i = 0; i < images.length; i++) {
+          const sequenceNumber = parseInt(images[i].name.split('_')[0]);
+          if (!sequenceNumber) {
+            uploadErrorDiv.innerText = `
+              A sorszám 0 vagy nincs megadva az összes kép nevében.
+              Példa: 1_Kép neve.png
+            `;
+            return;
+          }
+        }
+
+        uploadButton.innerHTML = '<div class="loading"></div>';
+        uploadErrorDiv.innerText = '';
+
+        const uploadAllImages = new Promise((resolve, reject) => {
+          images.forEach((image, i) => {
             firebase.storage().ref()
-              .child(`images/${tiles}/${latlng}/${uuidv4()}.png`)
+              .child(`images/${tiles}/${latlng}/${image.name}`)
               .put(image)
               .then(() => {
                 if (i === img.files.length - 1) resolve();
-              });
+              })
+              .catch(err => reject(err.message));
           });
         });
 
@@ -57,9 +81,12 @@ const onMapClick = async (map, tiles) => {
                 desc: desc.value,
                 latlng
               });
+            document.querySelector('.leaflet-popup-close-button').click();
+          })
+          .catch(err => {
+            uploadButton.innerText = 'Hozzáad';
+            uploadErrorDiv.innerText = err;
           });
-
-        document.querySelector('.leaflet-popup-close-button').click();
       });
     }
   });
