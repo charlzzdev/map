@@ -5,10 +5,11 @@ const validateImages = (images, errorDiv) => {
   }
 
   for (let i = 0; i < images.length; i++) {
-    const sequenceNumber = parseInt(images[i].name.split('_')[0]);
-    if (!sequenceNumber) {
-      errorDiv.innerText = `A sorszám 0 vagy nincs megadva az összes kép nevében.
-        Példa: 1_Kép neve.png
+    const startsWithDateFollowedBy_ = /^[0-9]{4}\.[0-9]{2}\.[0-9]{2}\._/;
+
+    if (!startsWithDateFollowedBy_.test(images[i].name)) {
+      errorDiv.innerText = `A dátum nincs a kép nevében vagy hibásan van megadva.
+        Példa: 2020.03.01._Kép neve.png
       `;
       return false;
     }

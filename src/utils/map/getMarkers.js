@@ -65,10 +65,15 @@ const getMarkers = (map, tiles) => {
                 item.getDownloadURL()
                   .then(url => {
                     const fileName = url.split(encodeURIComponent(`${latlng}/`))[1];
-                    const sequenceNumber = fileName.split('_')[0];
+                    const title = fileName.split('_')[1].split('.')[0];
+                    const date = fileName.split('_')[0];
+                    const dateWithoutDots = date.split('.').join('');
 
                     markerImages.innerHTML += `
-                      <img src="${url}" style="order: ${sequenceNumber};">
+                      <h2 style="order: ${dateWithoutDots}; margin: 0.75rem 0;">
+                        ${date} ${title && '-'} ${title}
+                      </h2>
+                      <img src="${url}" style="order: ${dateWithoutDots};">
                     `;
                   });
               });
