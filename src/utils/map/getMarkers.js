@@ -2,6 +2,7 @@ import L from 'leaflet';
 import firebase from 'firebase/app';
 import 'firebase/firestore';
 import 'firebase/storage';
+import 'firebase/auth';
 
 import extraImageUpload from '../form/extraImageUpload';
 
@@ -26,7 +27,9 @@ const getMarkers = (map, tiles) => {
         marker.bindPopup(`
           <h2>
             ${title}
-            <button class="danger-btn delete-marker">Törlés</button>
+            ${firebase.auth().currentUser ? `
+              <button class="danger-btn delete-marker">Törlés</button>
+            ` : ''}
           </h2>
           <p>${desc}</p>
           <div class="marker-images" id="${latlng}"></div>
@@ -35,20 +38,22 @@ const getMarkers = (map, tiles) => {
         marker.on('click', () => {
           if (!marker.getPopup().isOpen()) return;
 
-          const deleteMarkerBtn = document.querySelector(`.danger-btn.delete-marker`);
-          deleteMarkerBtn.addEventListener('click', () => {
-            firebase.firestore()
-              .collection(`tiles/${tiles}/markers`)
-              .doc(doc.id)
-              .delete();
+          if (firebase.auth().currentUser) {
+            const deleteMarkerBtn = document.querySelector(`.danger-btn.delete-marker`);
+            deleteMarkerBtn.addEventListener('click', () => {
+              firebase.firestore()
+                .collection(`tiles/${tiles}/markers`)
+                .doc(doc.id)
+                .delete();
 
-            firebase.storage().ref()
-              .child(`images/${tiles}/${latlng}`)
-              .listAll()
-              .then(data => {
-                data.items.forEach(item => item.delete());
-              });
-          });
+              firebase.storage().ref()
+                .child(`images/${tiles}/${latlng}`)
+                .listAll()
+                .then(data => {
+                  data.items.forEach(item => item.delete());
+                });
+            });
+          }
 
           firebase.storage().ref().child(`images/${tiles}/${latlng}`)
             .listAll()
