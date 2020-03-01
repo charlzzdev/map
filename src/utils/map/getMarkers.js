@@ -3,6 +3,8 @@ import firebase from 'firebase/app';
 import 'firebase/firestore';
 import 'firebase/storage';
 
+import extraImageUpload from '../form/extraImageUpload';
+
 const getMarkers = (map, tiles) => {
   const markers = [];
 
@@ -32,13 +34,16 @@ const getMarkers = (map, tiles) => {
           firebase.storage().ref().child(`images/${tiles}/${latlng}`)
             .listAll()
             .then(data => {
+              const markerImages = document.getElementById(latlng);
+              extraImageUpload(markerImages, tiles, latlng);
+
               data.items.forEach(item => {
                 item.getDownloadURL()
                   .then(url => {
                     const fileName = url.split(encodeURIComponent(`${latlng}/`))[1];
                     const sequenceNumber = fileName.split('_')[0];
 
-                    document.getElementById(latlng).innerHTML += `
+                    markerImages.innerHTML += `
                       <img src="${url}" style="order: ${sequenceNumber};">
                     `;
                   });
