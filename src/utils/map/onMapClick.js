@@ -4,6 +4,8 @@ import 'firebase/firestore';
 import 'firebase/storage';
 import uuidv4 from 'uuid/v4';
 
+import validateImages from '../form/validateImages';
+
 const onMapClick = async (map, tiles) => {
   map.on('click', e => {
     if (e.originalEvent.ctrlKey) {
@@ -42,21 +44,7 @@ const onMapClick = async (map, tiles) => {
         const latlng = e.target.dataset.latlng;
 
         const images = Array.from(img.files);
-        if (!images.length) {
-          uploadErrorDiv.innerText = 'Nincsenek képek kiválasztva.';
-          return;
-        }
-
-        for (let i = 0; i < images.length; i++) {
-          const sequenceNumber = parseInt(images[i].name.split('_')[0]);
-          if (!sequenceNumber) {
-            uploadErrorDiv.innerText = `
-              A sorszám 0 vagy nincs megadva az összes kép nevében.
-              Példa: 1_Kép neve.png
-            `;
-            return;
-          }
-        }
+        if (!validateImages(images, uploadErrorDiv)) return;
 
         uploadButton.innerHTML = '<div class="loading"></div>';
         uploadErrorDiv.innerText = '';
