@@ -24,13 +24,32 @@ const getMarkers = (map, tiles) => {
         markers.push(marker);
 
         marker.bindPopup(`
-          <h2>${title}</h2>
+          <h2>
+            ${title}
+            <button class="danger-btn delete-marker">Törlés</button>
+          </h2>
           <p>${desc}</p>
           <div class="marker-images" id="${latlng}"></div>
         `, { minWidth: 300 });
 
         marker.on('click', () => {
           if (!marker.getPopup().isOpen()) return;
+
+          const deleteMarkerBtn = document.querySelector(`.danger-btn.delete-marker`);
+          deleteMarkerBtn.addEventListener('click', () => {
+            firebase.firestore()
+              .collection(`tiles/${tiles}/markers`)
+              .doc(doc.id)
+              .delete();
+
+            firebase.storage().ref()
+              .child(`images/${tiles}/${latlng}`)
+              .listAll()
+              .then(data => {
+                data.items.forEach(item => item.delete());
+              });
+          });
+
           firebase.storage().ref().child(`images/${tiles}/${latlng}`)
             .listAll()
             .then(data => {

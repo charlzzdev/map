@@ -64,6 +64,13 @@ button{
   cursor: pointer;
 }
 
+.danger-btn{
+  background: #ffd7d7;
+  color: #bd0000;
+  border-radius: 6px;
+  padding: 0.25rem 0.5rem;
+}
+
 .login{
   width: 15rem;
   padding: 2rem;
