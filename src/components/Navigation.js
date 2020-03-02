@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 
 import Collapsible from './Collapsible';
+import { ChevronDown } from './icons';
 
 const Navigation = ({ setTiles }) => {
   const [dropdownOpen, setDropdownOpen] = useState(false);
@@ -15,7 +16,7 @@ const Navigation = ({ setTiles }) => {
       <button
         className="dropdown-toggle"
         onClick={() => setDropdownOpen(!dropdownOpen)}
-      >Tervek ⏷</button>
+      >Tervek <ChevronDown /></button>
       <div className={`dropdown ${dropdownOpen ? 'open' : 'closed'}`}>
         {
           dropdownOpen && <>

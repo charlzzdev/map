@@ -115,6 +115,13 @@ button{
   width: 100%;
   border-radius: 6px;
   border: 2px solid transparent;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.main-nav button svg{
+  margin-left: 0.5rem;
 }
 
 button.dropdown-toggle{
