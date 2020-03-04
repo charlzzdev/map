@@ -3,18 +3,10 @@ import 'firebase/auth';
 
 import validateImages from './validateImages';
 
-const extraImageUpload = (markerImages, tiles, latlng) => {
+const extraImageUpload = (uploadForm, tiles, latlng) => {
   if (!firebase.auth().currentUser) return;
 
-  markerImages.innerHTML = `
-    <form>
-      <input type="file" multiple>
-      <button style="margin: 0.5rem 0;">Hozzáad</button>
-      <div class="error"></div>
-    </form>
-  `;
-
-  markerImages.addEventListener('submit', e => {
+  uploadForm.addEventListener('submit', e => {
     e.preventDefault();
     const [input, button, errorDiv] = e.target.children;
     const images = Array.from(input.files);
