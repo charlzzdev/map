@@ -6,7 +6,7 @@ import uuidv4 from 'uuid/v4';
 
 import validateImages from '../form/validateImages';
 
-const onMapClick = async (map, tiles) => {
+const onMapClick = (map, tiles) => {
   map.on('click', e => {
     if (e.originalEvent.ctrlKey) {
       const id = uuidv4();
@@ -38,7 +38,7 @@ const onMapClick = async (map, tiles) => {
       const uploadErrorDiv = saveForm.querySelector('.error');
       const uploadButton = saveForm.querySelector('button');
 
-      saveForm.addEventListener('submit', async e => {
+      saveForm.addEventListener('submit', e => {
         e.preventDefault();
         const [title, desc, img] = e.target;
         const latlng = e.target.dataset.latlng;

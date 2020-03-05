@@ -30,7 +30,7 @@ const App = () => {
     return () => map.remove();
   }, [tiles]);
 
-  const handleKeyDown = async e => {
+  const handleKeyDown = e => {
     e.persist();
 
     if (firebase.auth().currentUser) {
