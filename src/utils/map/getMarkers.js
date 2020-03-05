@@ -28,7 +28,7 @@ const getMarkers = (map, tiles) => {
           <h2>
             ${title}
             ${firebase.auth().currentUser ? `
-              <button class="danger-btn delete-marker">Törlés</button>
+              <button class="danger-btn delete-marker-${doc.id}">Törlés</button>
             ` : ''}
           </h2>
           <p>${desc}</p>
