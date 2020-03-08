@@ -52,7 +52,12 @@ const onMarkerClick = ({ marker, tiles, latlng, docId }) => {
                 <h2 style="order: ${dateWithoutDots}; margin: 0.75rem 0;">
                   ${date} ${title && '-'} ${title}
                 </h2>
-                <img src="${url}" style="order: ${dateWithoutDots};">
+                <img 
+                  src="${url}" 
+                  class="marker-img" 
+                  alt="${title}"
+                  style="order: ${dateWithoutDots};"
+                >
               `;
             });
         });

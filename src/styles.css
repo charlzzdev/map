@@ -94,8 +94,13 @@ button{
   flex-direction: column;
 }
 
-.marker-images img{
+.marker-images .marker-img{
   width: 100%;
+  cursor: pointer;
+}
+
+.marker-images .marker-img:hover{
+  filter: brightness(1.2);
 }
 
 .main-nav{
@@ -173,4 +178,66 @@ select {
   height: 2rem;
   padding-left: 0.5rem;
   margin-bottom: 1rem;
+}
+
+.image-viewer{
+  z-index: 2000;
+  width: 100vw;
+  height: 100vh;
+  background: #0009;
+  position: absolute;
+  top: 0;
+  left: 0;
+  overflow: hidden;
+}
+
+.image-viewer img{
+  width: 80%;
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+}
+
+.image-viewer .loading{
+  width: 50px;
+  height: 50px;
+  position: absolute;
+  left:50%;
+  top: 50%;
+}
+
+.image-viewer button{
+  position: absolute;
+  background: none;
+}
+
+.image-viewer button svg{
+  stroke: #fff;
+  height: 2rem;
+  width: 2rem;
+}
+
+.image-viewer .close-btn{
+  right: 0;
+}
+
+.image-viewer .prev-btn, .image-viewer .next-btn{
+  top: 50%;
+  transform: translateY(-50%);
+}
+
+.image-viewer .next-btn{
+  right: 0;
+}
+
+@media(max-width: 600px){
+  .image-viewer img{
+    width: 100%;
+  }
+  
+  .image-viewer .prev-btn, .image-viewer .next-btn{
+    top: initial;
+    bottom: 0;
+  }
 }

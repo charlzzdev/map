@@ -5,6 +5,7 @@ import 'firebase/auth';
 
 import LoginForm from './components/LoginForm';
 import Navigation from './components/Navigation';
+import ImageViewer from './components/ImageViewer';
 
 import onMapClick from './utils/map/onMapClick';
 import getMarkers from './utils/map/getMarkers';
@@ -12,6 +13,7 @@ import getMarkers from './utils/map/getMarkers';
 const App = () => {
   const [loginFormOpen, setLoginFormOpen] = useState(false);
   const [tiles, setTiles] = useState('Páprád Helyszínrajz I');
+  const [imageInViewer, setImageInViewer] = useState({ src: '', alt: '' });
 
   useEffect(() => {
     const map = L.map('map').setView([50, 0], 3);
@@ -27,6 +29,17 @@ const App = () => {
     });
 
     getMarkers(map, tiles);
+
+    document.addEventListener('click', e => {
+      if (e.target.className === 'marker-img') {
+        setImageInViewer({ src: e.target.src, alt: e.target.alt });
+      }
+
+      if (e.target.className === 'image-viewer') {
+        setImageInViewer({ src: '' });
+      }
+    });
+
     return () => map.remove();
   }, [tiles]);
 
@@ -48,6 +61,11 @@ const App = () => {
     <>
       {loginFormOpen && <LoginForm setLoginFormOpen={setLoginFormOpen} />}
       <Navigation setTiles={setTiles} />
+      <ImageViewer
+        src={imageInViewer.src}
+        alt={imageInViewer.alt}
+        setImageInViewer={setImageInViewer}
+      />
       <div
         id="map"
         onKeyDown={handleKeyDown}
