@@ -38,9 +38,8 @@ const App = () => {
 
     firebase.auth().onAuthStateChanged(user => {
       if (user) onMapClick(map, tiles);
+      getMarkers(map, tiles);
     });
-
-    getMarkers(map, tiles);
 
     return () => map.remove();
   }, [tiles]);
