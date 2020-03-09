@@ -16,6 +16,18 @@ const App = () => {
   const [imageInViewer, setImageInViewer] = useState({ src: '', alt: '' });
 
   useEffect(() => {
+    document.addEventListener('click', e => {
+      if (e.target.className === 'marker-img') {
+        setImageInViewer({ src: e.target.src, alt: e.target.alt });
+      }
+
+      if (e.target.className === 'image-viewer') {
+        setImageInViewer({ src: '' });
+      }
+    });
+  }, []);
+
+  useEffect(() => {
     const map = L.map('map').setView([50, 0], 3);
 
     L.tileLayer(`tiles/${tiles}/{z}/{x}_{y}.png`, {
@@ -29,16 +41,6 @@ const App = () => {
     });
 
     getMarkers(map, tiles);
-
-    document.addEventListener('click', e => {
-      if (e.target.className === 'marker-img') {
-        setImageInViewer({ src: e.target.src, alt: e.target.alt });
-      }
-
-      if (e.target.className === 'image-viewer') {
-        setImageInViewer({ src: '' });
-      }
-    });
 
     return () => map.remove();
   }, [tiles]);
