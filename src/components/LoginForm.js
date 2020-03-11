@@ -1,10 +1,16 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import firebase from 'firebase/app';
 import 'firebase/auth';
 
 const LoginForm = ({ setLoginFormOpen }) => {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(false);
+
+  const emailRef = useRef(null);
+
+  useEffect(() => {
+    emailRef.current.focus();
+  }, []);
 
   const handleSubmit = e => {
     e.preventDefault();
@@ -32,7 +38,7 @@ const LoginForm = ({ setLoginFormOpen }) => {
     >
       <h2>Bejelentkezés</h2>
       <div className="field">
-        <input type="text" id="email" />
+        <input type="text" id="email" ref={emailRef} />
         <label htmlFor="email">Email</label>
       </div>
       <div className="field">
