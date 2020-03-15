@@ -3,8 +3,6 @@ import React from 'react';
 import { Close, ChevronLeft, ChevronRight } from './icons';
 
 const ImageViewer = ({ src, alt, setImageInViewer }) => {
-  if (!src) return null;
-
   const currentImg = document.querySelector(`.marker-img[src="${src}"]`);
   const images = Array.from(currentImg.parentElement.querySelectorAll('.marker-img'));
 

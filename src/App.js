@@ -62,11 +62,11 @@ const App = () => {
     <>
       {loginFormOpen && <LoginForm setLoginFormOpen={setLoginFormOpen} />}
       <Navigation setTiles={setTiles} />
-      <ImageViewer
+      {imageInViewer.src && <ImageViewer
         src={imageInViewer.src}
         alt={imageInViewer.alt}
         setImageInViewer={setImageInViewer}
-      />
+      />}
       <div
         id="map"
         onKeyDown={handleKeyDown}
