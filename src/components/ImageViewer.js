@@ -1,10 +1,27 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 
 import { Close, ChevronLeft, ChevronRight } from './icons';
 
 const ImageViewer = ({ src, alt, setImageInViewer }) => {
   const currentImg = document.querySelector(`.marker-img[src="${src}"]`);
   const images = Array.from(currentImg.parentElement.querySelectorAll('.marker-img'));
+
+  useEffect(() => {
+    document.querySelector('.close-btn').focus();
+
+    const handleKeyUp = e => {
+      if (e.key === 'ArrowRight') {
+        document.querySelector('.next-btn').click();
+      } else if (e.key === 'ArrowLeft') {
+        document.querySelector('.prev-btn').click();
+      } else if (e.key === 'Escape') {
+        document.querySelector('.close-btn').click();
+      }
+    }
+
+    document.addEventListener('keyup', handleKeyUp);
+    return () => document.removeEventListener('keyup', handleKeyUp);
+  }, []);
 
   images.forEach((img, i) => {
     images.forEach((img2, j) => {
