@@ -108,6 +108,7 @@ button{
   z-index: 1000;
   top: 20px;
   right: 25px;
+  display: flex;
 }
 
 .main-nav button{

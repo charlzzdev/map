@@ -1,9 +1,11 @@
 import React, { useState, useEffect } from 'react';
+import firebase from 'firebase/app';
+import 'firebase/auth';
 
 import Collapsible from './Collapsible';
 import { ChevronDown } from './icons';
 
-const Navigation = ({ setTiles }) => {
+const Navigation = ({ setTiles, user }) => {
   const [dropdownOpen, setDropdownOpen] = useState(false);
 
   useEffect(() => {
@@ -13,6 +15,11 @@ const Navigation = ({ setTiles }) => {
 
   return (
     <nav className="main-nav">
+      {
+        user && <button
+          onClick={() => firebase.auth().signOut()}
+        >Kijelentkezés</button>
+      }
       <button
         className="dropdown-toggle"
         onClick={() => setDropdownOpen(!dropdownOpen)}

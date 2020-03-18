@@ -12,6 +12,7 @@ import getMarkers from './utils/map/getMarkers';
 
 const App = () => {
   const [loginFormOpen, setLoginFormOpen] = useState(false);
+  const [user, setUser] = useState({});
   const [tiles, setTiles] = useState('Páprád Helyszínrajz I');
   const [imageInViewer, setImageInViewer] = useState({ src: '', alt: '' });
 
@@ -37,6 +38,7 @@ const App = () => {
     }).addTo(map);
 
     firebase.auth().onAuthStateChanged(user => {
+      setUser(user);
       if (user) onMapClick(map, tiles);
     });
 
@@ -46,7 +48,7 @@ const App = () => {
       unsubGetMarkers();
       map.remove();
     }
-  }, [tiles]);
+  }, [tiles, user]);
 
   const handleKeyDown = e => {
     e.persist();
@@ -65,7 +67,7 @@ const App = () => {
   return (
     <>
       {loginFormOpen && <LoginForm setLoginFormOpen={setLoginFormOpen} />}
-      <Navigation setTiles={setTiles} />
+      <Navigation setTiles={setTiles} user={user} />
       {imageInViewer.src && <ImageViewer
         src={imageInViewer.src}
         alt={imageInViewer.alt}
