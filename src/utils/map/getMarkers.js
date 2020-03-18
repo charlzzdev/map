@@ -9,7 +9,7 @@ import onMarkerClick from './onMarkerClick';
 const getMarkers = (map, tiles) => {
   const markers = [];
 
-  firebase.firestore().collection(`tiles/${tiles}/markers`)
+  const unsub = firebase.firestore().collection(`tiles/${tiles}/markers`)
     .onSnapshot(({ docs }) => {
       markers.forEach(marker => map.removeLayer(marker));
       markers.splice(0, markers.length);
@@ -54,6 +54,8 @@ const getMarkers = (map, tiles) => {
         });
       });
     });
+
+  return unsub;
 }
 
 export default getMarkers;

@@ -38,10 +38,14 @@ const App = () => {
 
     firebase.auth().onAuthStateChanged(user => {
       if (user) onMapClick(map, tiles);
-      getMarkers(map, tiles);
     });
 
-    return () => map.remove();
+    const unsubGetMarkers = getMarkers(map, tiles);
+
+    return () => {
+      unsubGetMarkers();
+      map.remove();
+    }
   }, [tiles]);
 
   const handleKeyDown = e => {
