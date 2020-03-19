@@ -12,7 +12,7 @@ import getMarkers from './utils/map/getMarkers';
 
 const App = () => {
   const [loginFormOpen, setLoginFormOpen] = useState(false);
-  const [user, setUser] = useState({});
+  const [user, setUser] = useState(null);
   const [tiles, setTiles] = useState('Páprád Helyszínrajz I');
   const [imageInViewer, setImageInViewer] = useState({ src: '', alt: '' });
 
