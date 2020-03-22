@@ -33,14 +33,19 @@ const onMarkerClick = ({ marker, tiles, latlng, docId }) => {
       });
     }
 
+    const markerImages = document.getElementById(latlng);
+    const loadingDiv = document.createElement('div');
+    loadingDiv.className = 'loading';
+    loadingDiv.style = 'border-color: #333; border-right-color: transparent;';
+    markerImages.parentElement.insertBefore(loadingDiv, markerImages);
+
     firebase.storage().ref().child(`images/${tiles}/${latlng}`)
       .listAll()
       .then(data => {
-        const markerImages = document.getElementById(latlng);
         const uploadForm = markerImages.parentElement.querySelector('form');
         extraImageUpload(uploadForm, tiles, latlng);
 
-        data.items.forEach(item => {
+        data.items.forEach((item, i) => {
           item.getDownloadURL()
             .then(url => {
               const fileName = url.split(encodeURIComponent(`${latlng}/`))[1];
@@ -59,6 +64,10 @@ const onMarkerClick = ({ marker, tiles, latlng, docId }) => {
                   style="order: ${dateWithoutDots};"
                 >
               `;
+
+              if (i === data.items.length - 1) {
+                markerImages.parentElement.removeChild(loadingDiv);
+              }
             });
         });
       });
