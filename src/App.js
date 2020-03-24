@@ -13,7 +13,7 @@ import getMarkers from './utils/map/getMarkers';
 const App = () => {
   const [loginFormOpen, setLoginFormOpen] = useState(false);
   const [user, setUser] = useState(null);
-  const [tiles, setTiles] = useState('Páprád Helyszínrajz I');
+  const [tiles, setTiles] = useState('_');
   const [imageInViewer, setImageInViewer] = useState({ src: '', alt: '' });
 
   useEffect(() => {
@@ -39,7 +39,7 @@ const App = () => {
 
     firebase.auth().onAuthStateChanged(user => {
       setUser(user);
-      if (user) onMapClick(map, tiles);
+      if (user?.email === 'admin@admin.admin') onMapClick(map, tiles);
     });
 
     const unsubGetMarkers = getMarkers(map, tiles);
@@ -53,21 +53,19 @@ const App = () => {
   const handleKeyDown = e => {
     e.persist();
 
-    if (firebase.auth().currentUser) {
-      if (e.ctrlKey) {
-        e.target.style.cursor = 'crosshair';
-      }
-    } else {
-      if (e.ctrlKey && e.altKey && e.shiftKey && e.key === 'L') {
-        setLoginFormOpen(true);
-      }
+    if (user?.email === 'admin@admin.admin' && e.ctrlKey) {
+      e.target.style.cursor = 'crosshair';
     }
   }
 
   return (
     <>
       {loginFormOpen && <LoginForm setLoginFormOpen={setLoginFormOpen} />}
-      <Navigation setTiles={setTiles} user={user} />
+      <Navigation
+        setTiles={setTiles}
+        user={user}
+        setLoginFormOpen={setLoginFormOpen}
+      />
       {imageInViewer.src && <ImageViewer
         src={imageInViewer.src}
         alt={imageInViewer.alt}

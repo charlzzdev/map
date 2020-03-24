@@ -16,7 +16,7 @@ const onMarkerClick = ({ marker, tiles, latlng, docId }) => {
       });
     });
 
-    if (firebase.auth().currentUser) {
+    if (firebase.auth().currentUser?.email === 'admin@admin.admin') {
       const deleteMarkerBtn = document.querySelector(`.danger-btn.delete-marker-${docId}`);
       deleteMarkerBtn.addEventListener('click', () => {
         firebase.firestore()

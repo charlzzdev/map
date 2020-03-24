@@ -4,7 +4,7 @@ import 'firebase/auth';
 import validateImages from './validateImages';
 
 const extraImageUpload = (uploadForm, tiles, latlng) => {
-  if (!firebase.auth().currentUser) return;
+  if (firebase.auth().currentUser?.email !== 'admin@admin.admin') return;
 
   uploadForm.addEventListener('submit', e => {
     e.preventDefault();

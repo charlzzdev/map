@@ -7,7 +7,9 @@ import 'firebase/auth';
 import onMarkerClick from './onMarkerClick';
 
 const getMarkers = (map, tiles) => {
+  if (!firebase.auth().currentUser) return () => null;
   const markers = [];
+  const adminLoggedIn = firebase.auth().currentUser.email === 'admin@admin.admin';
 
   const unsub = firebase.firestore().collection(`tiles/${tiles}/markers`)
     .onSnapshot(({ docs }) => {
@@ -27,12 +29,12 @@ const getMarkers = (map, tiles) => {
         marker.bindPopup(`
           <h2>
             ${title}
-            ${firebase.auth().currentUser ? `
+            ${adminLoggedIn ? `
               <button class="danger-btn delete-marker-${doc.id}">Törlés</button>
             ` : ''}
           </h2>
           <p>${desc}</p>
-          ${firebase.auth().currentUser ? `
+          ${adminLoggedIn ? `
             <form>
               <input type="file" multiple>
               <button style="margin: 0.5rem 0;">Hozzáad</button>

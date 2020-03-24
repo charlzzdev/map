@@ -5,7 +5,7 @@ import 'firebase/auth';
 import Collapsible from './Collapsible';
 import { ChevronDown } from './icons';
 
-const Navigation = ({ setTiles, user }) => {
+const Navigation = ({ setTiles, user, setLoginFormOpen }) => {
   const [dropdownOpen, setDropdownOpen] = useState(false);
 
   useEffect(() => {
@@ -16,9 +16,14 @@ const Navigation = ({ setTiles, user }) => {
   return (
     <nav className="main-nav">
       {
-        user && <button
-          onClick={() => firebase.auth().signOut()}
-        >Kijelentkezés</button>
+        user ?
+          <button
+            onClick={() => firebase.auth().signOut()}
+          >Kijelentkezés</button>
+          :
+          <button
+            onClick={() => setLoginFormOpen(true)}
+          >Bejelentkezés</button>
       }
       <button
         className="dropdown-toggle"
@@ -27,19 +32,26 @@ const Navigation = ({ setTiles, user }) => {
       <div className={`dropdown ${dropdownOpen ? 'open' : 'closed'}`}>
         {
           dropdownOpen && <>
-            <Collapsible
-              title="Páprád"
-              btns={[
-                'Helyszínrajz I',
-                'Helyszínrajz II'
-              ]}
-              setTiles={setTiles}
-            />
-            <Collapsible
-              title="Egyéb"
-              btns={[]}
-              setTiles={setTiles}
-            />
+            {!user && 'Jelentkezz be a terveid megtekintéséhez.'}
+            {
+              (user?.email === 'paprad@a.bc' || user?.email === 'admin@admin.admin')
+              && <Collapsible
+                title="Páprád"
+                btns={[
+                  'Helyszínrajz I',
+                  'Helyszínrajz II'
+                ]}
+                setTiles={setTiles}
+              />
+            }
+            {
+              user?.email === 'admin@admin.admin'
+              && <Collapsible
+                title="Egyéb"
+                btns={[]}
+                setTiles={setTiles}
+              />
+            }
           </>
         }
       </div>
