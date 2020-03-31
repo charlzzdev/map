@@ -25,6 +25,14 @@ body {
 
 @keyframes loading{ to{ transform: rotateZ(360deg) } }
 
+.loading.full-page{
+  width: 150px;
+  height: 150px;
+  border: 6px solid #333;
+  border-right: 6px solid transparent;
+  margin: 10rem auto;
+}
+
 .error{
   font-size: 0.8rem;
   color: red;

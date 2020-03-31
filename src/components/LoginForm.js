@@ -2,7 +2,7 @@ import React, { useState, useEffect, useRef } from 'react';
 import firebase from 'firebase/app';
 import 'firebase/auth';
 
-const LoginForm = ({ setLoginFormOpen }) => {
+const LoginForm = ({ setUser }) => {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(false);
 
@@ -21,9 +21,9 @@ const LoginForm = ({ setLoginFormOpen }) => {
 
     firebase.auth()
       .signInWithEmailAndPassword(email.value, password.value)
-      .then(() => {
+      .then(user => {
         setLoading(false);
-        setLoginFormOpen(false);
+        setUser(user);
       })
       .catch(err => {
         setError(err.message);

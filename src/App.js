@@ -11,12 +11,17 @@ import onMapClick from './utils/map/onMapClick';
 import getMarkers from './utils/map/getMarkers';
 
 const App = () => {
-  const [loginFormOpen, setLoginFormOpen] = useState(false);
+  const [appLoading, setAppLoading] = useState(true);
   const [user, setUser] = useState(null);
-  const [tiles, setTiles] = useState('_');
+  const [tiles, setTiles] = useState('Páprád Helyszínrajz I');
   const [imageInViewer, setImageInViewer] = useState({ src: '', alt: '' });
 
   useEffect(() => {
+    firebase.auth().onAuthStateChanged(user => {
+      setUser(user);
+      setAppLoading(false);
+    });
+
     document.addEventListener('click', e => {
       if (e.target.className === 'marker-img') {
         setImageInViewer({ src: e.target.src, alt: e.target.alt });
@@ -29,6 +34,8 @@ const App = () => {
   }, []);
 
   useEffect(() => {
+    if (!user || appLoading) return;
+
     const map = L.map('map').setView([50, 0], 3);
 
     L.tileLayer(`tiles/${tiles}/{z}/{x}_{y}.png`, {
@@ -37,10 +44,7 @@ const App = () => {
       noWrap: true
     }).addTo(map);
 
-    firebase.auth().onAuthStateChanged(user => {
-      setUser(user);
-      if (user?.email === 'admin@admin.admin') onMapClick(map, tiles);
-    });
+    if (user?.email === 'admin@admin.admin') onMapClick(map, tiles);
 
     const unsubGetMarkers = getMarkers(map, tiles);
 
@@ -48,7 +52,7 @@ const App = () => {
       unsubGetMarkers();
       map.remove();
     }
-  }, [tiles, user]);
+  }, [tiles, user, appLoading]);
 
   const handleKeyDown = e => {
     e.persist();
@@ -60,22 +64,25 @@ const App = () => {
 
   return (
     <>
-      {loginFormOpen && <LoginForm setLoginFormOpen={setLoginFormOpen} />}
-      <Navigation
-        setTiles={setTiles}
-        user={user}
-        setLoginFormOpen={setLoginFormOpen}
-      />
-      {imageInViewer.src && <ImageViewer
-        src={imageInViewer.src}
-        alt={imageInViewer.alt}
-        setImageInViewer={setImageInViewer}
-      />}
-      <div
-        id="map"
-        onKeyDown={handleKeyDown}
-        onKeyUp={e => e.target.style.cursor = ''}
-      ></div>
+      {
+        appLoading ? <div className="loading full-page"></div> :
+          user ? <>
+            <Navigation
+              setTiles={setTiles}
+              user={user}
+            />
+            {imageInViewer.src && <ImageViewer
+              src={imageInViewer.src}
+              alt={imageInViewer.alt}
+              setImageInViewer={setImageInViewer}
+            />}
+            <div
+              id="map"
+              onKeyDown={handleKeyDown}
+              onKeyUp={e => e.target.style.cursor = ''}
+            ></div>
+          </> : <LoginForm setUser={setUser} />
+      }
     </>
   )
 }
