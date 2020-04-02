@@ -3,6 +3,7 @@ import L from 'leaflet';
 import firebase from 'firebase/app';
 import 'firebase/auth';
 
+import AppLoading from './components/AppLoading';
 import LoginForm from './components/LoginForm';
 import Navigation from './components/Navigation';
 import ImageViewer from './components/ImageViewer';
@@ -65,7 +66,7 @@ const App = () => {
   return (
     <>
       {
-        appLoading ? <div className="loading full-page"></div> :
+        appLoading ? <AppLoading /> :
           user ? <>
             <Navigation
               setTiles={setTiles}
