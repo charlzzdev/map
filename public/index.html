@@ -12,7 +12,27 @@
 </head>
 
 <body>
-  <div id="root"></div>
+  <div id="root">
+    <style>
+      .initial-loading {
+        width: 150px;
+        height: 150px;
+        margin: 0 auto;
+        border: 6px solid #333;
+        border-right: 6px solid transparent;
+        border-radius: 50%;
+        animation: load 750ms infinite linear;
+      }
+
+      @keyframes load {
+        to {
+          transform: rotateZ(360deg);
+        }
+      }
+    </style>
+    <h1 style="text-align: center; font-family: sans-serif;">Betöltés...</h1>
+    <div class="initial-loading"></div>
+  </div>
 </body>
 
 </html>
