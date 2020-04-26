@@ -39,9 +39,10 @@ const App = () => {
 
     firebase.auth().onAuthStateChanged(user => {
       setUser(user);
-      if (user) onMapClick(map, tiles);
     });
-
+    
+    onMapClick(map, tiles);
+    
     const unsubGetMarkers = getMarkers(map, tiles);
 
     return () => {
@@ -53,14 +54,8 @@ const App = () => {
   const handleKeyDown = e => {
     e.persist();
 
-    if (firebase.auth().currentUser) {
-      if (e.ctrlKey) {
-        e.target.style.cursor = 'crosshair';
-      }
-    } else {
-      if (e.ctrlKey && e.altKey && e.shiftKey && e.key === 'L') {
-        setLoginFormOpen(true);
-      }
+    if (e.ctrlKey) {
+      e.target.style.cursor = 'crosshair';
     }
   }
 

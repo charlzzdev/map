@@ -4,8 +4,6 @@ import 'firebase/auth';
 import validateImages from './validateImages';
 
 const extraImageUpload = (uploadForm, tiles, latlng) => {
-  if (!firebase.auth().currentUser) return;
-
   uploadForm.addEventListener('submit', e => {
     e.preventDefault();
     const [input, button, errorDiv] = e.target.children;

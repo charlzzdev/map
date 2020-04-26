@@ -16,22 +16,20 @@ const onMarkerClick = ({ marker, tiles, latlng, docId }) => {
       });
     });
 
-    if (firebase.auth().currentUser) {
-      const deleteMarkerBtn = document.querySelector(`.danger-btn.delete-marker-${docId}`);
-      deleteMarkerBtn.addEventListener('click', () => {
-        firebase.firestore()
-          .collection(`tiles/${tiles}/markers`)
-          .doc(docId)
-          .delete();
+    const deleteMarkerBtn = document.querySelector(`.danger-btn.delete-marker-${docId}`);
+    deleteMarkerBtn.addEventListener('click', () => {
+      firebase.firestore()
+        .collection(`tiles/${tiles}/markers`)
+        .doc(docId)
+        .delete();
 
-        firebase.storage().ref()
-          .child(`images/${tiles}/${latlng}`)
-          .listAll()
-          .then(data => {
-            data.items.forEach(item => item.delete());
-          });
-      });
-    }
+      firebase.storage().ref()
+        .child(`images/${tiles}/${latlng}`)
+        .listAll()
+        .then(data => {
+          data.items.forEach(item => item.delete());
+        });
+    });
 
     const markerImages = document.getElementById(latlng);
     const loadingDiv = document.createElement('div');

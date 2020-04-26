@@ -20,6 +20,11 @@ const Navigation = ({ setTiles, user }) => {
           onClick={() => firebase.auth().signOut()}
         >Kijelentkezés</button>
       }
+      <button>
+        <div style={{width: '250px'}}>
+          Ctrl + klikk új pont lerakásához
+        </div>
+      </button>
       <button
         className="dropdown-toggle"
         onClick={() => setDropdownOpen(!dropdownOpen)}

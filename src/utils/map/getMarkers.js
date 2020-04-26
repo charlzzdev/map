@@ -27,18 +27,14 @@ const getMarkers = (map, tiles) => {
         marker.bindPopup(`
           <h2>
             ${title}
-            ${firebase.auth().currentUser ? `
-              <button class="danger-btn delete-marker-${doc.id}">Törlés</button>
-            ` : ''}
+            <button class="danger-btn delete-marker-${doc.id}">Törlés</button>
           </h2>
           <p>${desc}</p>
-          ${firebase.auth().currentUser ? `
-            <form>
-              <input type="file" multiple>
-              <button style="margin: 0.5rem 0;">Hozzáad</button>
-              <div class="error"></div>
-            </form>
-          ` : ''}
+          <form>
+            <input type="file" multiple>
+            <button style="margin: 0.5rem 0;">Hozzáad</button>
+            <div class="error"></div>
+          </form>
           <select id="sort-${latlng}">
             <option value="desc">Legújabb képek elöl</option>
             <option value="asc">Legrégebbi képek elöl</option>
